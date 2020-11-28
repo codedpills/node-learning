@@ -1,17 +1,29 @@
 const express = require('express');
 const app = express();
+const path = require('path');
+const bodyParser = require('body-parser');
 
 //Middlewares
 
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: false }));
+
 //Request handlers
 
-const serveHomePage = (req, res) => {
-	res.send('Home page init');
-	//1. Find the file
+const loginRequestHandler = (req, res) => {
+	// let body = '';
+	// // console.log(req);
+	// req.on('data', (chuck) => {
+	// 	body += chuck;
+	// });
 
-	//2. Send file to client
+	// req.on('end', () => console.log(body));
+
+	console.log(req.body);
+	res.send('Login Done');
 };
 
-app.get('/', serveHomePage);
+//Route
+app.post('/login', loginRequestHandler);
 
-app.listen(3000, () => console.log('Server is running'));
+app.listen(3000, () => console.log('beautiful server is runing'));
