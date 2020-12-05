@@ -1,29 +1,38 @@
+//Be able to do:
+/**
+ * Create a bank
+ * update a bank-details
+ * delete a bank
+ * Access a list of banks created
+ * account number
+ */
+
+/**
+ * Name
+ * phone
+ * address
+ * location
+ * branch
+ */
+
 const express = require('express');
 const app = express();
-const path = require('path');
 const bodyParser = require('body-parser');
 
-//Middlewares
+const {
+	listBanksController,
+	updateBankController,
+	deleteBankController,
+	createBankController,
+} = require('./controllers');
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }));
+//Middlerwares
+app.use(bodyParser.json());
 
-//Request handlers
+//Routes
+app.get('/bank', listBanksController);
+app.post('/bank', createBankController);
+app.put('/bank', updateBankController);
+app.delete('/bank', deleteBankController);
 
-const loginRequestHandler = (req, res) => {
-	// let body = '';
-	// // console.log(req);
-	// req.on('data', (chuck) => {
-	// 	body += chuck;
-	// });
-
-	// req.on('end', () => console.log(body));
-
-	console.log(req.body);
-	res.send('Login Done');
-};
-
-//Route
-app.post('/login', loginRequestHandler);
-
-app.listen(3000, () => console.log('beautiful server is runing'));
+app.listen(3000, () => console.log('Server running'));
