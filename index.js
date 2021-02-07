@@ -15,24 +15,30 @@
  * branch
  */
 
-const express = require('express');
+const express = require("express");
 const app = express();
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+
+mongoose.connect(
+  "mongodb+srv://ahmed:p455w0rd@cluster0.nsezm.mongodb.net/bank?retryWrites=true&w=majority",
+  { useNewUrlParser: true, useUnifiedTopology: true }
+);
 
 const {
-	listBanksController,
-	updateBankController,
-	deleteBankController,
-	createBankController,
-} = require('./controllers');
+  listBanksController,
+  updateBankController,
+  deleteBankController,
+  createBankController,
+} = require("./controllers");
 
 //Middlerwares
 app.use(bodyParser.json());
 
 //Routes
-app.get('/bank', listBanksController);
-app.post('/bank', createBankController);
-app.put('/bank', updateBankController);
-app.delete('/bank', deleteBankController);
+app.get("/bank", listBanksController);
+app.post("/bank", createBankController);
+app.put("/bank", updateBankController);
+app.delete("/bank", deleteBankController);
 
-app.listen(3000, () => console.log('Server running'));
+app.listen(3005, () => console.log("Server running"));
