@@ -88,13 +88,43 @@ const createAccountController = (req, res) => {
 };
 
 const listAccountController = async (req, res) => {
-  const accounts = await Account.find().populate('bankId');
+  const accounts = await Account.find().populate("bankId");
   res.json({ data: accounts });
 };
 
-const updateAccountController = (req, res) => {};
+const updateAccountController = async (req, res) => {
+  const { _id, accountName, accountType, accountNumber, bankId } = req.body;
 
-const deleteAccountController = (req, res) => {};
+  if (!_id) {
+    return res.status("400").json({ message: "You need to provide an ID" });
+  }
+
+  try {
+    const updatedAccount = await Account.findByIdAndUpdate(
+      _id,
+      {
+        accountName,
+        accountType,
+        accountNumber,
+        bankId,
+      },
+      { new: true, runValidators: true }
+    );
+    if (updatedAccount) {
+      return res.json({ message: "update succefull", data: updatedAccount });
+    }
+    res.json({ message: "No account with that ID found" });
+  } catch (error) {
+    console.log(error);
+    res.status("400").json({ message: "An error occured", error: error });
+  }
+};
+
+const deleteAccountController = async (req, res) => {
+  const { _id } = req.body;
+  const deletedAccount = await Account.findByIdAndDelete(_id);
+  res.json({ message: "account deleted", data: deletedAccount });
+};
 
 module.exports = {
   listBanksController,
