@@ -5,7 +5,6 @@ const Account = require("./accountModel");
 const listBanksController = (req, res) => {
   //List all banks
   const banks = Bank.find()
-    .populate("accounts")
     .then((banks) => {
       res.status("200").json({ data: banks });
     })
