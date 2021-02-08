@@ -5,6 +5,7 @@ const Account = require("./accountModel");
 const listBanksController = (req, res) => {
   //List all banks
   const banks = Bank.find()
+    .populate("accounts")
     .then((banks) => {
       res.status("200").json({ data: banks });
     })
@@ -72,6 +73,9 @@ const deleteBankController = async (req, res) => {
   //Create bank
   const { _id } = req.body;
   const deletedBank = await Bank.findByIdAndDelete(_id);
+  if (deletedBank) {
+	  Account.deleteMany({bankId: deletedBank._id});
+  }
   res.json({ message: "bank deleted", data: deletedBank });
 };
 
