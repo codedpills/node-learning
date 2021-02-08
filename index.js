@@ -30,6 +30,10 @@ const {
   updateBankController,
   deleteBankController,
   createBankController,
+  listAccountController,
+  createAccountController,
+  updateAccountController,
+  deleteAccountController,
 } = require("./controllers");
 
 //Middlerwares
@@ -40,5 +44,9 @@ app.get("/bank", listBanksController);
 app.post("/bank", createBankController);
 app.put("/bank", updateBankController);
 app.delete("/bank", deleteBankController);
+app.get("/account", listAccountController);
+app.post("/account", createAccountController);
+app.put("/account", updateAccountController);
+app.delete("/account", deleteAccountController);
 
 app.listen(3005, () => console.log("Server running"));

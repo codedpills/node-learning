@@ -1,5 +1,6 @@
 //Controller
-const Bank = require("./model");
+const Bank = require("./bankModel");
+const Account = require("./accountModel");
 
 const listBanksController = (req, res) => {
   //List all banks
@@ -54,15 +55,15 @@ const updateBankController = async (req, res) => {
         address,
         accountNumber,
       },
-	  { new: true, runValidators:true }
-	);
-	console.log(updatedBank);
+      { new: true, runValidators: true }
+    );
+    console.log(updatedBank);
     if (updatedBank) {
       return res.json({ message: "update succefull", data: updatedBank });
     }
     res.json({ message: "No bank with that ID found" });
   } catch (error) {
-	  console.log(error);
+    console.log(error);
     res.status("400").json({ message: "An error occured", error: error });
   }
 };
@@ -74,9 +75,34 @@ const deleteBankController = async (req, res) => {
   res.json({ message: "bank deleted", data: deletedBank });
 };
 
+const createAccountController = (req, res) => {
+  const { accountName, accountType, accountNumber, bankId } = req.body;
+  const account = new Account({
+    accountName,
+    accountType,
+    accountNumber,
+    bankId,
+  });
+  account.save();
+  res.json({ message: "account created successful", data: account });
+};
+
+const listAccountController = async (req, res) => {
+  const accounts = await Account.find().populate('bankId');
+  res.json({ data: accounts });
+};
+
+const updateAccountController = (req, res) => {};
+
+const deleteAccountController = (req, res) => {};
+
 module.exports = {
   listBanksController,
   updateBankController,
   deleteBankController,
   createBankController,
+  createAccountController,
+  listAccountController,
+  updateAccountController,
+  deleteAccountController,
 };
