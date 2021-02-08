@@ -21,8 +21,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 mongoose.connect(
-  "mongodb+srv://ahmed:p455w0rd@cluster0.nsezm.mongodb.net/bank?retryWrites=true&w=majority",
-  { useNewUrlParser: true, useUnifiedTopology: true }
+  "mongodb+srv://ahmed:12345678_@cluster0.nsezm.mongodb.net/bank?retryWrites=true&w=majority",
+  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
 );
 
 const {
